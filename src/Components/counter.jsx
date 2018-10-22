@@ -15,24 +15,24 @@ class counter extends Component {
 
     const fd = new FormData();
     fd.append("file", this.state.selectedFile);
-    console.log(test);
+    console.log(fd);
+
 
     let xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "http://localhost:8090/api/5bc86952c2e82518b84759a7/upload");
-    xhttp.setRequestHeader("Content-Type", "form-data");
+    xhttp.open("POST", "http://192.168.1.117:8090/api/5bc88e7ac2e8250f2c94bce1/upload" );
+    //xhttp.setRequestHeader("Content-Type", "multipart/form-data");
     //xhttp.setRequestHeader("Key", "file");
     xhttp.setRequestHeader('Access-Control-Allow-Origin','*');
     xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, HEAD');
     xhttp.responseType = 'text';  
     xhttp.send(fd);
- 
     xhttp.onload = ()=>{
       console.log(xhttp.responseText);
       }
-    
   }
  
-  render() {
+  render() 
+  {
     return (
       <div>
       <input type = "file" onChange={this.fileSelectedHandler}/>
