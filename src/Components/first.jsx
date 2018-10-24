@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 
-var url;
+
+var url = "";
+var animals;
+var str;
+var strtwo;
+var strthree;
 
 export default class first extends Component {
 
@@ -9,12 +14,14 @@ export default class first extends Component {
     this.state = {
     allAnimals: [],
     url : ""};
+
   }
 
+
  
- fileUploadHandler(){
+ fileUploadHandler =() =>{
   let xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "http://192.168.1.117:8090/api/5bcde391c2e825206ca12047/cvs" );
+  xhttp.open("GET", "http://192.168.1.117:8090/api/5bd03053c2e82505d4ff8142/cvs" );
   xhttp.setRequestHeader('Content-Type', 'application/json');
   //xhttp.setRequestHeader("Key", "file");
   xhttp.setRequestHeader('Access-Control-Allow-Origin','*');
@@ -28,38 +35,36 @@ export default class first extends Component {
     }
  }
 
- changeState(){
-  let animals = this.state.allAnimals;
-
+ changeState =() =>{
 
   var t1 = document.getElementById("1");
   var t2 = document.getElementById("2");
   var t3 = document.getElementById("3");
-  var str = animals[0].files_id;
+  str = this.state.allAnimals[0].files_id;
+  strtwo = this.state.allAnimals[1].files_id;
+  strthree = this.state.allAnimals[2].files_id;
+  console.log(strtwo);
 
-  if(t1 != null){
   t1.addEventListener("click", function(){ 
-    url = ("http://192.168.1.117:8090/api/people/5bcde391c2e825206ca12047/state/" + animals[0].files_id);
+    url = ("http://192.168.1.117:8090/api/people/5bd03053c2e82505d4ff8142/state/" + str);
  });
-  }
-  if(t2 != null){
-  t2.addEventListener("click", function(){ 
-    url = ("http://192.168.1.117:8090/api/people/5bcde391c2e825206ca12047/state/" + animals[1].files_id);
- });
-  }
-  if(t3 != null){
-  t3.addEventListener("click", function(){ 
-     url = ("http://192.168.1.117:8090/api/people/5bcde391c2e825206ca12047/state/" + animals[3].files_id);
-     });
-  }
-  console.log(str);
   
+  t2.addEventListener("click", function(){ 
+    url = ("http://192.168.1.117:8090/api/people/5bd03053c2e82505d4ff8142/state/" + strtwo) ;
+ });
+  
+  t3.addEventListener("click", function(){ 
+    url= ("http://192.168.1.117:8090/api/people/5bd03053c2e82505d4ff8142/state/" + strthree);
+     });
+  
+
+  console.log(url);
    let xhttp = new XMLHttpRequest();
-   xhttp.open("POST", url);
+   xhttp.open("GET", url);
    xhttp.setRequestHeader('Access-Control-Allow-Origin','*');
    xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, HEAD');
    xhttp.responseType = 'json';  
-   xhttp.send("Unapproved");
+   xhttp.send();
    xhttp.onload = ()=>{
     console.log(xhttp.response);
     }
@@ -67,21 +72,23 @@ export default class first extends Component {
 
   render() 
   {
-    let animals = this.state.allAnimals
+    animals = Array.from(this.state.allAnimals);
     var counter = 0;
     return (
       <div>
-      <button onClick={this.fileUploadHandler.bind(this)}>Upload</button>
-      <div>
+      <button onClick={this.fileUploadHandler}>Upload</button>
+
       {animals.map(item => 
       <div>
-        <a href={"http://192.168.1.117:8090/api/5bcde391c2e825206ca12047/cv/"+ item.files_id}>Download File</a>
-        <button id={("" + ++counter)} name={("" + counter)} onClick={this.changeState.bind(this)}>Flag</button>
+        <a href={"http://192.168.1.117:8090/api/5bd02474c2e82517d42c4ed8/cv/"+ item.files_id}>Download File</a>
+        <button id={("" + ++counter)} name={("" + counter)} onClick={this.changeState}>Flag</button>
+        <p>{item.state}</p>
       </div> )}
       </div>
-      </div>
+
     )
   }
 }
+
 
 
